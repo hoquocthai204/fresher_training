@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Download, Currency, Introduce, Language } from './components';
+import * as Components from './components'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../redux/slices/homeslice';
@@ -25,11 +25,16 @@ function Home() {
         return (`${states.language.name} | ${states.currency.code}`)
     })
 
+    useEffect(()=>{
+        if(showOptionBox===false){
+            dispatch(Actions.setOtherOption('language'))
+        }
+    },[showOptionBox])
 
     useEffect(() => {
-        const socket = io("ws://localhost:8080/stream",{
-            cors:{
-                origin:"*",
+        const socket = io("ws://localhost:8080/stream", {
+            cors: {
+                origin: "*",
             }
         });
 
@@ -64,9 +69,9 @@ function Home() {
             .catch(error => console.log(error))
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         setOptionText(`${states.language.name} | ${states.currency.code}`)
-    },[states.language, states.currency])
+    }, [states.language, states.currency])
 
     useEffect(() => {
         let element = document.querySelector(`.${states.otherOption}`)
@@ -99,7 +104,7 @@ function Home() {
                     <div className='download_container'>
                         <button className='download_btn' onClick={() => setShowDownloadBox(!showDownloadBox)}>{t('download')}</button>
                         {
-                            showDownloadBox && (<Download title={t('download_title')} btn={t('download_btn')} />)
+                            showDownloadBox && (<Components.Download title={t('download_title')} btn={t('download_btn')} />)
                         }
                     </div>
                     <div className='option_container'>
@@ -115,17 +120,15 @@ function Home() {
                                 </div>
 
                                 {
-                                    states.otherOption === 'language' ? <Language title={t('language_header_choose')} /> : <Currency title={t('currency_header_choose')} />
+                                    states.otherOption === 'language' ? <Components.Language title={t('language_header_choose')} /> : <Components.Currency title={t('currency_header_choose')} />
                                 }
                             </div>)
                         }
-
                     </div>
-
                 </div>
             </div>
 
-            <Introduce text={t('Introducing_Highstreet')} more={t('Introducing_Highstreet_more')} />
+            <Components.Introduce text={t('Introducing_Highstreet')} more={t('Introducing_Highstreet_more')} />
 
             <div className='subcontent'>
                 <div className='subcontent_container'>
@@ -197,54 +200,7 @@ function Home() {
                 </div>
             </div>
 
-            <div className='footer'>
-                <div className='about'>
-                    <h2>About Us</h2>
-                    <p>About</p>
-                    <p>Careers</p>
-                    <p>Business Contacts</p>
-                    <p>Community</p>
-                </div>
-                <div className='products'>
-                    <h2>Products</h2>
-                    <p>Exchange</p>
-                    <p>Academy</p>
-                    <p>Charity</p>
-                    <p>Card</p>
-                    <p>Labs</p>
-
-                </div>
-                <div className='service'>
-                    <h2>Service</h2>
-                    <p>Download</p>
-                    <p>Desktop Application</p>
-                    <p>Buy Cryto</p>
-                    <p>Institutional & VIP Services</p>
-
-                </div>
-                <div className='support'>
-                    <h2>Support</h2>
-                    <p>Give Us Feedback</p>
-                    <p>Support Center</p>
-                    <p>Submit a request</p>
-                    <p>API Documentation</p>
-                    <p>Fees</p>
-
-                </div>
-                <div className='learn'>
-                    <h2>Learn</h2>
-                    <p>Buy BNB</p>
-                    <p>Buy BUSD</p>
-                    <p>Buy Bitcoin</p>
-                    <p>Buy Ethereum</p>
-                    <p>Buy Litecoin</p>
-                    <p>Buy Bitcoin Cash</p>
-
-                </div>
-                <div className='community'>
-                    <h2>Community</h2>
-                </div>
-            </div>
+            <Components.Footer />
         </div>
     )
 }
