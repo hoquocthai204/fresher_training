@@ -1,0 +1,316 @@
+.increase {
+    color: #0ecb81;
+}
+
+.decrease {
+    color: #fd0606;
+}
+
+#home {
+    .header {
+        padding: 15px 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > div {
+            display: inline-block;
+        }
+
+        .leftSide {
+            p {
+                display: inline-block;
+            }
+
+            .header_title {
+                font-size: 36px;
+                margin-right: 80px;
+            }
+
+            .trade {
+                font-size: 14px;
+            }
+        }
+
+        .rightSide {
+            width: 25%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            > .option_container button,
+            > button {
+                display: inline-block;
+                background-color: white;
+                border: none;
+                cursor: pointer;
+                padding: 5px 10px;
+            }
+
+            .download_container {
+                position: relative;
+                display: inline-block;
+
+                .download_btn {
+                    background-color: white;
+                    border: none;
+                    cursor: pointer;
+                }
+            }
+
+            .option_container {
+                position: relative;
+                display: inline-block;
+
+                .other_option {
+                }
+
+                .option_boxs {
+                    padding-bottom: 20px;
+                    text-align: left;
+                    position: absolute;
+                    width: 567px;
+                    height: 429px;
+                    top: 40px;
+                    right: 0;
+                    border-radius: 10px;
+                    background-color: white;
+                    border: 1px solid #ccc;
+                    z-index: 1;
+
+                    .header_option {
+                        padding: 10px 15px 0;
+                        border-bottom: 1px solid #ccc;
+
+                        p {
+                            display: inline-block;
+                            font-weight: bold;
+                            padding-bottom: 10px;
+                            opacity: 0.7;
+                            cursor: pointer;
+
+                            + p {
+                                margin-left: 30px;
+                            }
+
+                            &.active {
+                                border-bottom: 1px solid #d3a307;
+                                opacity: 1;
+                            }
+
+                            &:hover {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .subcontent {
+        padding: 100px 80px 60px;
+        background-color: black;
+        color: white;
+
+        .subcontent_container {
+            .subcontent_title {
+                font-size: 48px;
+                font-weight: 400;
+            }
+
+            .subcontent_subtitle {
+                font-size: 18px;
+                padding: 10px 0 22px;
+            }
+
+            .register_btn {
+                padding: 11px 50px;
+                font-size: 20px;
+                background-color: #fcd535;
+                color: black;
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+                margin-bottom: 34px;
+            }
+        }
+
+        .coinDetail {
+            .coinContainer {
+                display: inline-block;
+                width: 20%;
+
+                .coinPair {
+                    font-size: 20px;
+                    span {
+                        font-size: 18px;
+                        margin-left: 10px;
+                    }
+                }
+
+                .rate {
+                    padding: 7px 0;
+                    font-size: 30px;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .slide_image {
+        padding: 36px 75px 50px;
+        .imgContainer {
+            cursor: pointer;
+            display: inline-block;
+            width: 24%;
+            height: 180px;
+            margin: 0 0.5%;
+            border-radius: 10px;
+
+            &:nth-child(1) {
+                background: url("https://s2.coinmarketcap.com/static/new-alerts/6115224cb91ba00012e951d7/img/1641286897549_crust-a-230_138.png")
+                    no-repeat center/cover;
+            }
+
+            &:nth-child(2) {
+                background: url("https://s2.coinmarketcap.com/static/new-alerts/61152481ad8e1000124fc878/img/1639738636872_Free-API-Sponsorship-Program-(updated)-280x136.png")
+                    no-repeat center/cover;
+            }
+
+            &:nth-child(3) {
+                background: url("https://s2.coinmarketcap.com/static/new-alerts/611521ecc3074e0013b0c4a9/img/1639938659208_Airdrop-general-image-280x136.png")
+                    no-repeat center/cover;
+            }
+
+            &:nth-child(4) {
+                background: url("https://s2.coinmarketcap.com/static/new-alerts/61152358029ab00019681d99/img/1632373087159_Influencer 280x136(1).jpeg")
+                    no-repeat center/cover;
+            }
+        }
+    }
+
+    .mainContent {
+        padding: 0 75px 0;
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .info_container {
+            margin-top: 20px;
+            margin-bottom: 70px;
+            position: relative;
+            padding-bottom: 20px;
+
+            .header_list,
+            .item {
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                + .item {
+                    margin-top: 30px;
+                }
+
+                > img {
+                    height: 30px;
+                }
+
+                .item_name {
+                    display: flex;
+                    align-items: center;
+
+                    .name {
+                        margin-left: 10px;
+
+                        span + span {
+                            margin-left: 10px;
+                            opacity: 0.6;
+                        }
+                    }
+                }
+
+                .header_list {
+                    opacity: 0.8;
+                }
+
+                .lprice {
+                    position: absolute;
+                    left: 44%;
+                    transform: translateX(-100%);
+                }
+
+                .change24h {
+                    position: absolute;
+                    left: 60%;
+                    transform: translateX(-100%);
+                }
+            }
+            .view {
+                position: absolute;
+                left: 50%;
+                bottom: -26px;
+                transform: translateX(-50%);
+                cursor: pointer;
+            }
+        }
+    }
+
+    .trade_select {
+        text-align: center;
+        padding: 30px 0 60px;
+        background-color: #fafafa;
+
+        .trade_title {
+            margin-bottom: 24px;
+        }
+
+        .btn_selector {
+            button {
+                font-size: 14px;
+                padding: 10px 37px;
+                border-radius: 5px;
+                border: none;
+                font-weight: bold;
+                cursor: pointer;
+
+                + button {
+                    margin-left: 30px;
+                }
+
+                &:nth-child(1) {
+                    background-color: #fcd535;
+                }
+
+                &:nth-child(2) {
+                    background-color: #eaecef;
+                }
+            }
+        }
+    }
+
+    .footer {
+        padding: 50px 80px 100px 90px;
+        display: flex;
+
+        > div {
+            display: inline-block;
+            width: calc(100% / 6);
+
+            h2 {
+                margin-bottom: 25px;
+            }
+
+            p {
+                font-size: 14px;
+                opacity: 0.7;
+
+                + p {
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+}
