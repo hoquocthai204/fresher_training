@@ -107,57 +107,7 @@
             }
         }
     }
-
-    .subcontent {
-        padding: 100px 80px 60px;
-        background-color: black;
-        color: white;
-
-        .subcontent_container {
-            .subcontent_title {
-                font-size: 48px;
-                font-weight: 400;
-            }
-
-            .subcontent_subtitle {
-                font-size: 18px;
-                padding: 10px 0 22px;
-            }
-
-            .register_btn {
-                padding: 11px 50px;
-                font-size: 20px;
-                background-color: #fcd535;
-                color: black;
-                border-radius: 5px;
-                border: none;
-                cursor: pointer;
-                margin-bottom: 34px;
-            }
-        }
-
-        .coinDetail {
-            .coinContainer {
-                display: inline-block;
-                width: 20%;
-
-                .coinPair {
-                    font-size: 20px;
-                    span {
-                        font-size: 18px;
-                        margin-left: 10px;
-                    }
-                }
-
-                .rate {
-                    padding: 7px 0;
-                    font-size: 30px;
-                    font-weight: bold;
-                }
-            }
-        }
-    }
-
+    
     .slide_image {
         padding: 36px 75px 50px;
         .imgContainer {
@@ -190,73 +140,7 @@
         }
     }
 
-    .mainContent {
-        padding: 0 75px 0;
-
-        h1 {
-            margin-bottom: 30px;
-        }
-
-        .info_container {
-            margin-top: 20px;
-            margin-bottom: 70px;
-            position: relative;
-            padding-bottom: 20px;
-
-            .header_list,
-            .item {
-                position: relative;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-
-                + .item {
-                    margin-top: 30px;
-                }
-
-                > img {
-                    height: 30px;
-                }
-
-                .item_name {
-                    display: flex;
-                    align-items: center;
-
-                    .name {
-                        margin-left: 10px;
-
-                        span + span {
-                            margin-left: 10px;
-                            opacity: 0.6;
-                        }
-                    }
-                }
-
-                .header_list {
-                    opacity: 0.8;
-                }
-
-                .lprice {
-                    position: absolute;
-                    left: 44%;
-                    transform: translateX(-100%);
-                }
-
-                .change24h {
-                    position: absolute;
-                    left: 60%;
-                    transform: translateX(-100%);
-                }
-            }
-            .view {
-                position: absolute;
-                left: 50%;
-                bottom: -26px;
-                transform: translateX(-50%);
-                cursor: pointer;
-            }
-        }
-    }
+    
 
     .trade_select {
         text-align: center;

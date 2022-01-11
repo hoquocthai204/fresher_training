@@ -1,9 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import * as Components from './components'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../redux/slices/homeslice';
-import io from 'socket.io-client';
+import io from "socket.io-client";
+import useWebSocket from 'react-use-websocket';
 import './home.scss'
 
 function Home() {
@@ -12,7 +13,6 @@ function Home() {
     const [showOptionBox, setShowOptionBox] = useState(false)
     const [showDownloadBox, setShowDownloadBox] = useState(false)
     const { t, i18n } = useTranslation();
-    const lang_ref = useRef()
     const [optionText, setOptionText] = useState(() => {
         dispatch(Actions.setLanguage({
             "code": "en",
@@ -25,31 +25,34 @@ function Home() {
         return (`${states.language.name} | ${states.currency.code}`)
     })
 
-    useEffect(()=>{
-        if(showOptionBox===false){
-            dispatch(Actions.setOtherOption('language'))
-        }
-    },[showOptionBox])
+    const [socketUrl, setSocketUrl] = useState('ws://localhost:8080/stream');
+
+
 
     useEffect(() => {
-        const socket = io("ws://localhost:8080/stream", {
-            cors: {
-                origin: "*",
-            }
-        });
-
-        let message = {
-            "method": "SUBSCRIBE",
-            "topic": "MARKET_PRICE"
-        }
-        socket.on("connect", () => {
-            socket.emit("message", JSON.parse(message));
-        });
-
-        socket.on("message", data => {
-            console.log(data);
-        });
+        setSocketUrl('ws://localhost:8080/stream')
+        sendJsonMessage({
+            method: "SUBSCRIBE",
+            topic: "MARKET_PRICE"
+        })
     }, [])
+
+
+    const { sendJsonMessage, lastJsonMessage } = useWebSocket(socketUrl);
+
+    useEffect(() => {
+        if (lastJsonMessage) {
+            let socketdata = lastJsonMessage.data
+            setSocketUrl(null)
+            dispatch(Actions.setSocketData(socketdata))
+        }
+    })
+
+    useEffect(() => {
+        if (showOptionBox === false) {
+            dispatch(Actions.setOtherOption('language'))
+        }
+    }, [showOptionBox])
 
     useEffect(() => {
         fetch('http://localhost:8080/api/common/coins')
@@ -63,7 +66,6 @@ function Home() {
                         image: ele.image
                     }
                 })
-                console.log(arrCoin)
                 dispatch(Actions.setCoinList(arrCoin))
             })
             .catch(error => console.log(error))
@@ -130,30 +132,7 @@ function Home() {
 
             <Components.Introduce text={t('Introducing_Highstreet')} more={t('Introducing_Highstreet_more')} />
 
-            <div className='subcontent'>
-                <div className='subcontent_container'>
-                    <p className='subcontent_title'>{t('header_title')}</p>
-                    <p className='subcontent_subtitle'>{t('subheader')}</p>
-                    <button className='register_btn'>{t('register_now')}</button>
-                </div>
-                <div className='coinDetail'>
-                    {
-                        states.coinList.map((element) => {
-                            if (element.id < 6) {
-                                let currency = JSON.parse(localStorage.getItem('currency'))
-                                return (
-                                    <div className='coinContainer' key={element.id}>
-                                        <p className='coinPair'>{`${element.code}/${states.currency.code}`}<span className='increase'>6.64%</span> </p>
-                                        <p className='rate'>2.076</p>
-                                        <span>$2.07</span>
-                                    </div>
-                                )
-                            }
-                        })
-                    }
-
-                </div>
-            </div>
+            <Components.Subcontent header={t('header_title')} subheader={t('subheader')} resbtn={t('register_now')} />
 
             <div className='slide_image'>
                 <div className='imgContainer'></div>
@@ -162,35 +141,7 @@ function Home() {
                 <div className='imgContainer'></div>
             </div>
 
-            <div className='mainContent'>
-                <h1>{t('market_trend')}</h1>
-                <div className='info_container'>
-                    <div className='header_list'>
-                        <span className='name'>{t('name')}</span>
-                        <span className='lprice'>{t('last price')}</span>
-                        <span className='change24h'>{t('change 24h')}</span>
-                        <span className='markets'>{t('markets')}</span>
-                    </div>
-
-                    {
-                        states.coinList.map((e) => {
-                            return (
-                                <div className='item' key={e.id}>
-                                    <div className='item_name'>
-                                        <img width={25} height={25} src={e.image} alt="" />
-                                        <div className='name'><span>{`${e.code}`}</span><span>{`${e.name}`}</span></div>
-                                    </div>
-                                    <span className='lprice'>$514.10</span>
-                                    <span className='change24h'>-4.14%</span>
-                                    <img src='https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1027.svg' />
-                                </div>
-                            )
-                        })
-                    }
-
-                    <div className='view'>{t('view more')} <i class="fas fa-chevron-right"></i></div>
-                </div>
-            </div>
+            <Components.MainContent t={t}/>
 
             <div className='trade_select'>
                 <h1 className='trade_title'>{t('start trade now')}</h1>
