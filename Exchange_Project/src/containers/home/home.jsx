@@ -1,17 +1,24 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import * as Components from './components'
+import * as HomeComponents from './components/homepage'
+import * as LoginComponents from './components/loginpage'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../redux/slices/homeslice';
-import io from "socket.io-client";
 import useWebSocket from 'react-use-websocket';
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Link,
+    Navigate
+} from "react-router-dom";
+
 import './home.scss'
 
 function Home() {
     const dispatch = useDispatch()
     const states = useSelector(state => state.home);
-    const [showOptionBox, setShowOptionBox] = useState(false)
-    const [showDownloadBox, setShowDownloadBox] = useState(false)
+    const loginStates = useSelector(state => state.login);
     const { t, i18n } = useTranslation();
     const [optionText, setOptionText] = useState(() => {
         dispatch(Actions.setLanguage({
@@ -25,10 +32,8 @@ function Home() {
         return (`${states.language.name} | ${states.currency.code}`)
     })
 
+
     const [socketUrl, setSocketUrl] = useState('ws://localhost:8080/stream');
-
-
-
     useEffect(() => {
         setSocketUrl('ws://localhost:8080/stream')
         sendJsonMessage({
@@ -36,23 +41,22 @@ function Home() {
             topic: "MARKET_PRICE"
         })
     }, [])
-
-
     const { sendJsonMessage, lastJsonMessage } = useWebSocket(socketUrl);
-
     useEffect(() => {
         if (lastJsonMessage) {
             let socketdata = lastJsonMessage.data
-            setSocketUrl(null)
+            console.log(socketdata)
             dispatch(Actions.setSocketData(socketdata))
+            setSocketUrl(null)
         }
     })
 
+
     useEffect(() => {
-        if (showOptionBox === false) {
+        if (states.showOptionBox === false) {
             dispatch(Actions.setOtherOption('language'))
         }
-    }, [showOptionBox])
+    }, [states.showOptionBox])
 
     useEffect(() => {
         fetch('http://localhost:8080/api/common/coins')
@@ -95,63 +99,58 @@ function Home() {
 
     return (
         <div id='home'>
-            <div className='header'>
-                <div className='leftSide'>
-                    <p className='header_title'>Exchange</p>
-                    <p className='trade'>{t('trade')}</p>
-                </div>
-                <div className='rightSide'>
-                    <button className='login'>{t('login')}</button>
-                    <button className='register'>{t('register')}</button>
-                    <div className='download_container'>
-                        <button className='download_btn' onClick={() => setShowDownloadBox(!showDownloadBox)}>{t('download')}</button>
-                        {
-                            showDownloadBox && (<Components.Download title={t('download_title')} btn={t('download_btn')} />)
-                        }
+
+            <Router>
+                <div className='header'>
+                    <div className='leftSide'>
+                        <Link to='/'><p className='header_title'>Exchange</p></Link>
+
+                        <p className='trade'>{t('trade')}</p>
                     </div>
-                    <div className='option_container'>
-                        <button className='other_option' onClick={() => setShowOptionBox(!showOptionBox)}>
-                            {optionText}
+                    <div className='rightSide'>
+                        <button className='login'>
+                            <Link to='/login'>{t('login')}</Link>
                         </button>
-                        {
-                            showOptionBox &&
-                            (<div className='option_boxs'>
-                                <div className='header_option'>
-                                    <p className='language active' onClick={() => dispatch(Actions.setOtherOption('language'))}>{t('language_header')}</p>
-                                    <p className='currency' onClick={() => dispatch(Actions.setOtherOption('currency'))}>{t('currency_header')}</p>
-                                </div>
+                        <button className='register'>{t('register')}</button>
+                        <div className='download_container'>
+                            <button className='download_btn' onClick={() => dispatch(Actions.setShowDownloadBox())}>{t('download')}</button>
+                            {
+                                states.showDownloadBox && (<HomeComponents.Download title={t('download_title')} btn={t('download_btn')} />)
+                            }
+                        </div>
+                        <div className='option_container'>
+                            <button className='other_option' onClick={() => dispatch(Actions.setShowOptionBox())}>
+                                {optionText}
+                            </button>
+                            {
+                                states.showOptionBox &&
+                                (<div className='option_boxs'>
+                                    <div className='header_option'>
+                                        <p className='language active' onClick={() => dispatch(Actions.setOtherOption('language'))}>{t('language_header')}</p>
+                                        <p className='currency' onClick={() => dispatch(Actions.setOtherOption('currency'))}>{t('currency_header')}</p>
+                                    </div>
 
-                                {
-                                    states.otherOption === 'language' ? <Components.Language title={t('language_header_choose')} /> : <Components.Currency title={t('currency_header_choose')} />
-                                }
-                            </div>)
-                        }
+                                    {
+                                        states.otherOption === 'language' ? <HomeComponents.Language title={t('language_header_choose')} /> : <HomeComponents.Currency title={t('currency_header_choose')} />
+                                    }
+                                </div>)
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <Components.Introduce text={t('Introducing_Highstreet')} more={t('Introducing_Highstreet_more')} />
+                <HomeComponents.Introduce text={t('Introducing_Highstreet')} more={t('Introducing_Highstreet_more')} />
 
-            <Components.Subcontent header={t('header_title')} subheader={t('subheader')} resbtn={t('register_now')} />
+                <Routes>
+                    {
+                        loginStates.isLogin ? <Route path="/login" element={<Navigate replace to="/" />} /> : <Route path='/login' element={<LoginComponents.LoginPage />} />
+                    }
+                    <Route path='/login' element={<LoginComponents.LoginPage />} />
 
-            <div className='slide_image'>
-                <div className='imgContainer'></div>
-                <div className='imgContainer'></div>
-                <div className='imgContainer'></div>
-                <div className='imgContainer'></div>
-            </div>
+                    <Route path='/' element={<HomeComponents.HomePage t={t} />} />
+                </Routes>
 
-            <Components.MainContent t={t}/>
-
-            <div className='trade_select'>
-                <h1 className='trade_title'>{t('start trade now')}</h1>
-                <div className='btn_selector'>
-                    <button>{t('register_now')}</button>
-                    <button>{t('trade_now')}</button>
-                </div>
-            </div>
-
-            <Components.Footer />
+            </Router>
         </div>
     )
 }

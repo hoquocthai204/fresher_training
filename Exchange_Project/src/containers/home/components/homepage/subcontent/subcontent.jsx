@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from '../../../../redux/slices/homeslice';
+import * as Actions from '../../../../../redux/slices/homeslice';
 import './subcontent.scss'
 
 function Subcontent(props) {

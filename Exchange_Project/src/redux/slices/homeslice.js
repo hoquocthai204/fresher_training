@@ -8,9 +8,25 @@ const homeSlice = createSlice({
         post: [],
         socketdata: [],
         language: {},
-        currency: {}
+        currency: {},
+        showDownloadBox: false,
+        showOptionBox: false
     },
     reducers: {
+        setShowDownloadBox(state) {
+            let newstate = {
+                ...state,
+                showDownloadBox: !state.showDownloadBox
+            }
+            return newstate
+        },
+        setShowOptionBox(state) {
+            let newstate = {
+                ...state,
+                showOptionBox: !state.showOptionBox
+            }
+            return newstate
+        },
         setCoinList(state, action) {
             let newstate = {
                 ...state,
@@ -60,5 +76,12 @@ const homeSlice = createSlice({
 });
 
 const { actions, reducer } = homeSlice;
-export const { addPost, setCoinList, setOtherOption, setSocketData, setLanguage, setCurrency } = actions;
+export const {
+    setCoinList,
+    setOtherOption,
+    setSocketData,
+    setLanguage,
+    setCurrency,
+    setShowDownloadBox,
+    setShowOptionBox } = actions;
 export default reducer;
