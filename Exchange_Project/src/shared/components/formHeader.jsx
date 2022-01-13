@@ -1,5 +1,5 @@
 import React from 'react'
-import './header.scss'
+import './formHeader.scss'
 
 function FormHeader() {
     return (
@@ -9,4 +9,4 @@ function FormHeader() {
         </React.Fragment>
     )
 }
-export {FormHeader}
+export { FormHeader }

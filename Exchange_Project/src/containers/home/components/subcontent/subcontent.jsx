@@ -1,10 +1,48 @@
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from '../../../../../redux/slices/homeslice';
+import { useEffect, useState } from 'react';
+import * as Actions from '../../../../redux/slices/homeslice';
+import useWebSocket from 'react-use-websocket';
 import './subcontent.scss'
 
 function Subcontent(props) {
     const dispatch = useDispatch()
     const states = useSelector(state => state.home);
+    const loginStates = useSelector(state => state.login);
+
+    const [socketUrl, setSocketUrl] = useState('ws://localhost:8080/stream');
+    useEffect(() => {
+        setSocketUrl('ws://localhost:8080/stream')
+        sendJsonMessage({
+            method: "SUBSCRIBE",
+            topic: "MARKET_PRICE"
+        })
+    }, [])
+    const { sendJsonMessage, lastJsonMessage } = useWebSocket(socketUrl);
+    useEffect(() => {
+        if (lastJsonMessage) {
+            let socketdata = lastJsonMessage.data
+            dispatch(Actions.setSocketData(socketdata))
+            setSocketUrl(null)
+        }
+    })
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/common/coins')
+            .then(res => res.json())
+            .then(json => {
+                let arrCoin = json.map(ele => {
+                    return {
+                        id: ele.id,
+                        code: ele.code,
+                        name: ele.name,
+                        image: ele.image
+                    }
+                })
+                dispatch(Actions.setCoinList(arrCoin))
+            })
+            .catch(error => console.log(error))
+    }, [])
+
     return (
         <div className='subcontent'>
             <div className='subcontent_container'>
@@ -21,7 +59,7 @@ function Subcontent(props) {
                                 if (e[0] === element.code && e[1] === states.currency.code) {
                                     return (
                                         <div className='coinContainer' key={element.id}>
-                                            <p className='coinPair'>{`${element.code}/${states.currency.code}`} {e[3] > 0 ? (<span className='increase'>{e[3]}</span>) : (<span className='decrease'>{e[3]}</span>)}</p>
+                                            <p className='coinPair'>{`${element.code}/${states.currency.code}`} {e[3] > 0 ? (<span className='increase'>{`${e[3]}%`}</span>) : (<span className='decrease'>{`${e[3]}%`}</span>)}</p>
                                             <p className='rate'>1</p>
                                             <span>{states.currency.code === 'USD' ? `${states.currency.symbol} ${e[2]}` : `${e[2]} ${states.currency.symbol}`}</span>
                                         </div>
