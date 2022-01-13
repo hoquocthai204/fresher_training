@@ -1,0 +1,115 @@
+.increase {
+    color: #0ecb81;
+}
+
+.decrease {
+    color: #fd0606;
+}
+
+#home {
+    .header {
+        padding: 15px 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > div {
+            display: inline-block;
+        }
+
+        .leftSide {
+            p {
+                display: inline-block;
+            }
+
+            .header_title {
+                font-size: 36px;
+                margin-right: 80px;
+                color: black;
+            }
+
+            .trade {
+                font-size: 14px;
+            }
+        }
+
+        .rightSide {
+            width: 25%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            > .option_container button,
+            > button {
+                display: inline-block;
+                background-color: white;
+                border: none;
+                cursor: pointer;
+                padding: 5px 10px;
+
+                a{
+                    color: black;
+                }
+            }
+
+            .download_container {
+                position: relative;
+                display: inline-block;
+
+                .download_btn {
+                    background-color: white;
+                    border: none;
+                    cursor: pointer;
+                }
+            }
+
+            .option_container {
+                position: relative;
+                display: inline-block;
+
+                .other_option {
+                }
+
+                .option_boxs {
+                    padding-bottom: 20px;
+                    text-align: left;
+                    position: absolute;
+                    width: 567px;
+                    height: 429px;
+                    top: 40px;
+                    right: 0;
+                    border-radius: 10px;
+                    background-color: white;
+                    border: 1px solid #ccc;
+                    z-index: 1;
+
+                    .header_option {
+                        padding: 10px 15px 0;
+                        border-bottom: 1px solid #ccc;
+
+                        p {
+                            display: inline-block;
+                            font-weight: bold;
+                            padding-bottom: 10px;
+                            opacity: 0.7;
+                            cursor: pointer;
+
+                            + p {
+                                margin-left: 30px;
+                            }
+
+                            &.active {
+                                border-bottom: 1px solid #d3a307;
+                                opacity: 1;
+                            }
+
+                            &:hover {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
