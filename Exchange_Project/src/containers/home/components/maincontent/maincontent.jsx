@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from '../../../../../redux/slices/homeslice';
+import * as Actions from '../../../../redux/slices/homeslice';
 import './maincontent.scss'
 
 function MainContent(props) {
@@ -28,7 +28,7 @@ function MainContent(props) {
                                             <div className='name'><span>{`${element.code}`}</span><span>{`${element.name}`}</span></div>
                                         </div>
                                         <span className='lprice'>{states.currency.code === 'USD' ? `${states.currency.symbol} ${e[2]}` : `${e[2]} ${states.currency.symbol}`}</span>
-                                        <p>{e[3]>0?(<span className='change24h increase'>{e[3]}</span>):(<span className='change24h decrease'>{e[3]}</span>)}</p>
+                                        <p>{e[3]>0?(<span className='change24h increase'>{`${e[3]}%`}</span>):(<span className='change24h decrease'>{`${e[3]}%`}</span>)}</p>
                                         <img src='https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/4172.svg' />
                                     </div>
                                 )
