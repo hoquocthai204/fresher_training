@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../redux/slices/homeslice';
 import * as HomeComponents from '../../containers/Home/components'
-import './loginNav.scss'
+import './otherNav.scss'
 
-function LoginNav({t}) {
+function OtherNav({t}) {
     const dispatch = useDispatch()
     const states = useSelector(state => state.home);
     const loginStates = useSelector(state => state.login);
@@ -24,4 +24,4 @@ function LoginNav({t}) {
         </div>
     )
 }
-export { LoginNav }
+export { OtherNav }

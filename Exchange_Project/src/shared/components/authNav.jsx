@@ -33,7 +33,7 @@ function AuthNav({ t }) {
                     <div className="vip"><i class="fas fa-gem"></i> VIP 0</div>
                     <button className="logout" onClick={handleLogout}>
                         <i class="fas fa-sign-out-alt"></i>
-                        Log out
+                        Log Out
                     </button>
                 </div>}
             </div>

@@ -32,7 +32,6 @@ function Notification() {
             })
                 .then(res => res.json())
                 .then(json => {
-                    console.log(json)
                     dispatch(authActions.setListNotification(json))
                 })
                 .catch(error => console.log(error))

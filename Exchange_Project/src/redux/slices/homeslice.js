@@ -7,12 +7,20 @@ const homeSlice = createSlice({
         otherOption: 'language',
         post: [],
         socketdata: [],
-        language: {},
-        currency: {},
+        language: JSON.parse(localStorage.getItem('lang')) || { code: "en", name: "English" },
+        currency: JSON.parse(localStorage.getItem('curr')) || { code: "USD", symbol: "$" },
         showDownloadBox: false,
-        showOptionBox: false
+        showOptionBox: false,
+        langList: []
     },
     reducers: {
+        setLangList(state, action) {
+            let newstate = {
+                ...state,
+                langList: action.payload
+            }
+            return newstate
+        },
         setShowDownloadBox(state) {
             let newstate = {
                 ...state,
@@ -83,5 +91,6 @@ export const {
     setLanguage,
     setCurrency,
     setShowDownloadBox,
-    setShowOptionBox } = actions;
+    setShowOptionBox,
+    setLangList } = actions;
 export default reducer;

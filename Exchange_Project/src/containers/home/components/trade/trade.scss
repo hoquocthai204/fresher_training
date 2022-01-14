@@ -8,24 +8,30 @@
     }
 
     .btn_selector {
-        button {
-            font-size: 14px;
-            padding: 10px 37px;
-            border-radius: 5px;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-
-            + button {
+        > a {
+            button {
+                font-size: 14px;
+                padding: 10px 37px;
+                border-radius: 5px;
+                border: none;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            + a {
                 margin-left: 30px;
             }
-
             &:nth-child(1) {
-                background-color: #fcd535;
+                button{
+
+                    background-color: #fcd535;
+                }
             }
 
             &:nth-child(2) {
-                background-color: #eaecef;
+                button{
+                    
+                    background-color: #eaecef;
+                }
             }
         }
     }

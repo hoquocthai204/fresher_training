@@ -1,16 +1,31 @@
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../redux/slices/loginslice';
 import './submitBtn.scss'
+import { useNavigate } from "react-router-dom";
 
-function SubmitBtn({ type, value }) {
+function SubmitBtn({ value, flag }) {
     const dispatch = useDispatch()
-    const states = useSelector(state => state.login);
+    const loginstates = useSelector(state => state.login);
+    const regisstates = useSelector(state => state.regis);
+    const navigate = useNavigate()
 
-    function handleSubmit(e) {
+    function handleSubmit(e, flag) {
         e.preventDefault()
-        let payload = {
-            email: states.email,
-            password: states.password
+        let payload
+        if (flag === 'login') {
+            payload = {
+                email: loginstates.email,
+                password: loginstates.password
+            }
+        }
+        if (flag === 'register') {
+            payload = {
+                email: regisstates.email,
+                firstName: regisstates.firstName,
+                langCode: regisstates.langCode,
+                lastName: regisstates.lastName,
+                password: regisstates.password
+            }
         }
         var config = {
             method: 'POST',
@@ -22,21 +37,21 @@ function SubmitBtn({ type, value }) {
             },
             body: JSON.stringify(payload)
         };
-        fetch('http://localhost:8080/api/login', config)
+        fetch(`http://localhost:8080/api/${flag}`, config)
             .then(res => res.json())
             .then(json => {
                 if (json.token) {
-                    dispatch(Actions.setInLogin(false))
+                    dispatch(Actions.setInLoginorRegis(false))
+                    navigate('/')
                 }
                 dispatch(Actions.setAuth(json))
             })
-            .catch(error => console.log(error))
+        if (flag === 'register')
+            navigate('/login')
     }
 
     return (
-        <>
-            <input className='submitbtn' onClick={handleSubmit} type={type} value={value} />
-        </>
+        <input className='submitbtn' onClick={(e) => handleSubmit(e, flag)} type='submit' value={value} />
     )
 }
 export { SubmitBtn }

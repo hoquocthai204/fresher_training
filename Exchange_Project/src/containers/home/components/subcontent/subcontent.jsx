@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react';
 import * as Actions from '../../../../redux/slices/homeslice';
 import useWebSocket from 'react-use-websocket';
 import './subcontent.scss'
+import { Link } from 'react-router-dom'
 
-function Subcontent(props) {
+function Subcontent({t}) {
     const dispatch = useDispatch()
     const states = useSelector(state => state.home);
     const loginStates = useSelector(state => state.login);
 
     const [socketUrl, setSocketUrl] = useState('ws://localhost:8080/stream');
+    const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(socketUrl);
     useEffect(() => {
         setSocketUrl('ws://localhost:8080/stream')
         sendJsonMessage({
@@ -17,8 +19,8 @@ function Subcontent(props) {
             topic: "MARKET_PRICE"
         })
     }, [])
-    const { sendJsonMessage, lastJsonMessage } = useWebSocket(socketUrl);
     useEffect(() => {
+        console.log(readyState)
         if (lastJsonMessage) {
             let socketdata = lastJsonMessage.data
             dispatch(Actions.setSocketData(socketdata))
@@ -46,9 +48,14 @@ function Subcontent(props) {
     return (
         <div className='subcontent'>
             <div className='subcontent_container'>
-                <p className='subcontent_title'>{props.header}</p>
-                <p className='subcontent_subtitle'>{props.subheader}</p>
-                <button className='register_btn'>{props.resbtn}</button>
+                <p className='subcontent_title'>{t('header_title')}</p>
+                <p className='subcontent_subtitle'>{t('subheader')}</p>
+                {
+                    !loginStates.auth.token ?
+                        <Link to='/register'><button className='register_btn'>{t('register_now')}</button></Link> :
+                        <Link to='/trade'><button className='trade_btn'>{t('trade_now')}</button></Link>
+                }
+
             </div>
             <div className='coinDetail'>
                 {
@@ -61,7 +68,7 @@ function Subcontent(props) {
                                         <div className='coinContainer' key={element.id}>
                                             <p className='coinPair'>{`${element.code}/${states.currency.code}`} {e[3] > 0 ? (<span className='increase'>{`${e[3]}%`}</span>) : (<span className='decrease'>{`${e[3]}%`}</span>)}</p>
                                             <p className='rate'>1</p>
-                                            <span>{states.currency.code === 'USD' ? `${states.currency.symbol} ${e[2]}` : `${e[2]} ${states.currency.symbol}`}</span>
+                                            <span>{`${states.currency.symbol} ${e[2]}`}</span>
                                         </div>
                                     )
                                 }

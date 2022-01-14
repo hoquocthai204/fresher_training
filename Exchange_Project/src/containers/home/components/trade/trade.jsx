@@ -1,5 +1,6 @@
 import './trade.scss'
 import { useSelector } from 'react-redux'
+import {Link} from 'react-router-dom'
 
 function Trade({ t }) {
     const loginStates = useSelector(state => state.login)
@@ -7,8 +8,8 @@ function Trade({ t }) {
         <div className='trade_select'>
             <h1 className='trade_title'>{t('start trade now')}</h1>
             <div className='btn_selector'>
-                {!loginStates.auth.token && <button>{t('register_now')}</button>}
-                <button>{t('trade_now')}</button>
+                {!loginStates.auth.token && <Link to='/register'><button>{t('register_now')}</button></Link>}
+                <Link to='/trade'><button>{t('trade_now')}</button></Link>
             </div>
         </div>
     )

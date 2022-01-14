@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../../../redux/slices/homeslice';
 import './language.scss'
@@ -7,13 +7,12 @@ const Language = (props) => {
 
     const dispatch = useDispatch()
     const states = useSelector(state => state.home);
-    const [langList, setLangList] = useState([])
 
     useEffect(() => {
         fetch('http://localhost:8080/api/common/languages')
             .then(res => res.json())
             .then(json => {
-                setLangList(json)
+                dispatch(Actions.setLangList(json))
             })
     }, [])
 
@@ -27,7 +26,9 @@ const Language = (props) => {
             code: element,
             name: name
         }
+        localStorage.setItem('lang', JSON.stringify(jsondata))
         dispatch(Actions.setLanguage(jsondata))
+
     }
 
     return (
@@ -35,7 +36,7 @@ const Language = (props) => {
             <h4 className='lang_header'>{props.title}</h4>
             <div className='lang_list'>
                 {
-                    langList.map(element => {
+                    states.langList.map(element => {
                         return <a key={element.code} className={`item ${element.code}`} onClick={() => handleClick(element.code, element.name)}>{element.name}</a>
                     })
                 }

@@ -6,19 +6,18 @@ import * as HomeComponents from '../../containers/Home/components'
 import { useEffect, useState } from 'react';
 import './navigate.scss'
 
-function NavSide({t}) {
+function NavSide({ t }) {
     const dispatch = useDispatch()
     const states = useSelector(state => state.home);
     const [optionText, setOptionText] = useState(() => {
-        dispatch(Actions.setLanguage({
-            "code": "en",
-            "name": "English"
-        }))
-        dispatch(Actions.setCurrency({
-            "code": "USD",
-            "symbol": "$"
-        }))
-        return (`${states.language.name} | ${states.currency.code}`)
+        if (!localStorage.getItem('lang'))
+            localStorage.setItem('lang', JSON.stringify({ code: "en", name: "English" }))
+        if (!localStorage.getItem('curr'))
+            localStorage.setItem('curr', JSON.stringify({ code: "USD", symbol: "$" }))
+
+        let lang = JSON.parse(localStorage.getItem('lang')).name
+        let curr = JSON.parse(localStorage.getItem('curr')).code
+        return (`${lang} | ${curr}`)
     })
 
     useEffect(() => {
@@ -47,10 +46,13 @@ function NavSide({t}) {
 
     return (
         <div className='rightSide'>
-            <button className='login'>
-                <Link to='/login' onClick={()=>dispatch(loginActions.setInLogin(true))}>{t('login')}</Link>
-            </button>
-            <button className='register'>{t('register')}</button>
+            <Link to='/login' onClick={() => dispatch(loginActions.setInLoginorRegis(true))}>
+                <button className='login'>{t('login')}</button>
+            </Link>
+            <Link to='/register' onClick={()=> dispatch(loginActions.setInLoginorRegis(true))}>
+                <button className='register'>{t('register')}</button>
+            </Link>
+
             <div className='download_container'>
                 <button className='download_btn' onClick={() => dispatch(Actions.setShowDownloadBox())}>{t('download')}</button>
                 {

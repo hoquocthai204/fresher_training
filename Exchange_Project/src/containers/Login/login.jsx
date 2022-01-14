@@ -1,23 +1,22 @@
 import { FormHeader } from '../../shared/components/formHeader';
-import { InputContainer } from '../../shared/components/inputContainer';
+import { InputContainer } from './components/inputContainer';
 import { SubmitBtn } from '../../shared/components/submitBtn';
+import { RegisterLink } from './components/registerLink';
 import './login.scss'
 
-function LoginPage() {
+function LoginPage({ t }) {
     return (
-        <>
-            <form className='form_login'>
-                <FormHeader />
+        <form className='form_login'>
+            <FormHeader title={t('login_header')} subtitle={t('login_subheader')} />
 
-                <InputContainer type='email' text='Email' />
+            <InputContainer type='email' text='Email' val='email' />
 
-                <InputContainer type='password' text='Password' />
+            <InputContainer type='password' text={t('password')} val='password' />
 
-                <SubmitBtn type='submit' value='Log In' />
+            <SubmitBtn value={t('login')} flag={'login'} />
 
-                <p className='registerbtn'>Register Now</p>
-            </form>
-        </>
+            <RegisterLink t={t}/>
+        </form>
     )
 }
 export { LoginPage }

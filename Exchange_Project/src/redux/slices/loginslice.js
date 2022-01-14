@@ -5,28 +5,28 @@ const loginSlice = createSlice({
     initialState: {
         email: '',
         password: '',
-        inLogin: false,
+        inLoginorRegis: false,
         auth: {
             token: ''
         },
         post: []
     },
     reducers: {
-        setInLogin(state, action) {
+        setInLoginorRegis(state, action) {
             let newstate = {
                 ...state,
-                inLogin: action.payload
+                inLoginorRegis: action.payload
             }
             return newstate
         },
-        setEmail(state, action) {
+        setemail(state, action) {
             let newstate = {
                 ...state,
                 email: action.payload
             }
             return newstate
         },
-        setPassword(state, action) {
+        setpassword(state, action) {
             let newstate = {
                 ...state,
                 password: action.payload
@@ -51,5 +51,5 @@ const loginSlice = createSlice({
 })
 
 const { actions, reducer } = loginSlice;
-export const { setIsLogin, setEmail, setPassword, setAuth, setInLogin } = actions
+export const { setemail, setpassword, setAuth, setInLoginorRegis } = actions
 export default reducer;

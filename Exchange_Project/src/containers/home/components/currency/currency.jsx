@@ -25,6 +25,7 @@ function Currency(props) {
             code: element,
             symbol: symbol
         }
+        localStorage.setItem('curr', JSON.stringify(jsondata))
         dispatch(Actions.setCurrency(jsondata))
     }
 

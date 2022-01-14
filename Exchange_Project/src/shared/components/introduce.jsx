@@ -1,7 +1,7 @@
-import { memo, useRef } from 'react'
+import { useRef } from 'react'
 import './introduce.scss'
 
-function Introduce(props) {
+function Introduce({t}) {
     const ref = useRef()
     function handleClick() {
         ref.current.style.display = 'none'
@@ -9,8 +9,8 @@ function Introduce(props) {
     return (
         <div className='introduce_notification' ref={ref}>
             <i class="fas fa-exclamation-circle"></i>
-            <p>{props.text}</p>
-            <span>{props.more}</span>
+            <p>{t('Introducing_Highstreet')}</p>
+            <span>{t('Introducing_Highstreet_more')}</span>
             <i class="fas fa-times" onClick={handleClick}></i>
         </div>
     )
