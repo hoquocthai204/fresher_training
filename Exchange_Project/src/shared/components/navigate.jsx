@@ -44,23 +44,35 @@ function NavSide({ t }) {
         }
     }, [states.otherOption])
 
+    useEffect(() => {
+        if (states.showDownloadBox) {
+            dispatch(Actions.setShowOptionBox(false))
+        }
+    }, [states.showDownloadBox])
+
+    useEffect(()=>{
+        if (states.showOptionBox) {
+            dispatch(Actions.setShowDownloadBox(false))
+        }
+    },[states.showOptionBox])
+
     return (
         <div className='rightSide'>
             <Link to='/login' onClick={() => dispatch(loginActions.setInLoginorRegis(true))}>
                 <button className='login'>{t('login')}</button>
             </Link>
-            <Link to='/register' onClick={()=> dispatch(loginActions.setInLoginorRegis(true))}>
+            <Link to='/register' onClick={() => dispatch(loginActions.setInLoginorRegis(true))}>
                 <button className='register'>{t('register')}</button>
             </Link>
 
             <div className='download_container'>
-                <button className='download_btn' onClick={() => dispatch(Actions.setShowDownloadBox())}>{t('download')}</button>
+                <button className='download_btn' onClick={() => dispatch(Actions.setShowDownloadBox(!states.showDownloadBox))}>{t('download')}</button>
                 {
                     states.showDownloadBox && (<HomeComponents.Download title={t('download_title')} btn={t('download_btn')} />)
                 }
             </div>
             <div className='option_container'>
-                <button className='other_option' onClick={() => dispatch(Actions.setShowOptionBox())}>
+                <button className='other_option' onClick={() => dispatch(Actions.setShowOptionBox(!states.showOptionBox))}>
                     {optionText}
                 </button>
                 {

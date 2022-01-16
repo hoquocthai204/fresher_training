@@ -14,13 +14,11 @@ function Header({ t }) {
         <div className='header'>
             <div className='leftSide'>
                 <Link to='/' onClick={() => dispatch(loginActions.setInLoginorRegis(false))}><p className='header_title'>Exchange</p></Link>
-                {!loginstate.inLogin && <p className='trade'>{t('trade')}</p>}
+                {!loginstate.inLoginorRegis && <p className='trade'>{t('trade')}</p>}
             </div>
             {
                 !loginstate.inLoginorRegis ? (loginstate.auth.token ? <AuthNav t={t} /> : <NavSide t={t} />) : <OtherNav t={t} />
             }
-
-
         </div>
     )
 }

@@ -3,7 +3,7 @@ import * as Actions from '../../redux/slices/homeslice';
 import * as HomeComponents from '../../containers/Home/components'
 import './otherNav.scss'
 
-function OtherNav({t}) {
+function OtherNav({ t }) {
     const dispatch = useDispatch()
     const states = useSelector(state => state.home);
     const loginStates = useSelector(state => state.login);
@@ -11,7 +11,7 @@ function OtherNav({t}) {
     return (
         <div className='rightSide'>
             <div className='download_container'>
-                <button className='download_btn' onClick={() => dispatch(Actions.setShowDownloadBox())}>{t('download')}</button>
+                <button className='download_btn' onClick={() => dispatch(Actions.setShowDownloadBox(!states.showDownloadBox))}>{t('download')}</button>
                 {
                     states.showDownloadBox && (<HomeComponents.Download title={t('download_title')} btn={t('download_btn')} />)
                 }

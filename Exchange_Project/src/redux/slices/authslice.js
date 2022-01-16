@@ -23,17 +23,17 @@ const authSlice = createSlice({
             }
             return newstate
         },
-        setShowUserInfo(state) {
+        setShowUserInfo(state, action) {
             let newstate = {
                 ...state,
-                showUserInfo: !state.showUserInfo
+                showUserInfo: action.payload
             }
             return newstate
         },
-        setShowNotificationBox(state) {
+        setShowNotificationBox(state, action) {
             let newstate = {
                 ...state,
-                showNotificationBox: !state.showNotificationBox
+                showNotificationBox: action.payload
             }
             return newstate
         }

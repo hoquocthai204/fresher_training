@@ -21,17 +21,17 @@ const homeSlice = createSlice({
             }
             return newstate
         },
-        setShowDownloadBox(state) {
+        setShowDownloadBox(state, action) {
             let newstate = {
                 ...state,
-                showDownloadBox: !state.showDownloadBox
+                showDownloadBox: action.payload
             }
             return newstate
         },
-        setShowOptionBox(state) {
+        setShowOptionBox(state, action) {
             let newstate = {
                 ...state,
-                showOptionBox: !state.showOptionBox
+                showOptionBox: action.payload
             }
             return newstate
         },
