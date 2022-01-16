@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../redux/slices/loginslice';
+import * as regisActions from '../../redux/slices/registerslice'
 import './submitBtn.scss'
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +19,7 @@ function SubmitBtn({ value, flag }) {
                 password: loginstates.password
             }
         }
-        if (flag === 'register') {
+        if (flag === 'register' && regisstates.checkCondition) {
             payload = {
                 email: regisstates.email,
                 firstName: regisstates.firstName,
@@ -41,13 +42,14 @@ function SubmitBtn({ value, flag }) {
             .then(res => res.json())
             .then(json => {
                 if (json.token) {
-                    dispatch(Actions.setInLoginorRegis(false))
                     navigate('/')
+                    dispatch(Actions.setInLoginorRegis(false))
+                    dispatch(Actions.setAuth(json))
                 }
-                dispatch(Actions.setAuth(json))
+                else if (flag === 'register')
+                    navigate('/login')
+
             })
-        if (flag === 'register')
-            navigate('/login')
     }
 
     return (

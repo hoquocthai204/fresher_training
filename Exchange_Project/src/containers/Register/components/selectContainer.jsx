@@ -1,13 +1,21 @@
-import './selectContainer'
+import { useSelector, useDispatch } from 'react-redux'
+import * as regisActions from '../../../redux/slices/registerslice'
+import './selectContainer.scss'
 
 function SelectContainer({ t }) {
-    return (
-        <div className="select_container">
-            <p htmlFor="selectbox">{t('country')}</p>
-            <select name="" id="">
-                <option value=""></option>
-            </select>
+    const dispatch = useDispatch()
 
+    function saveLangcode(e){
+        dispatch(regisActions.setlangCode(e.target.value))
+    }
+    return (
+        <div className="container">
+            <label htmlFor="select_box">{t('country')}</label>
+
+            <select id="select_box" onBlur={saveLangcode}>
+                <option value="en">United States</option>
+                <option value="vn">Vietnam (Việt Nam)</option>
+            </select>
         </div>
     )
 }

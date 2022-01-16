@@ -1,19 +1,20 @@
 import './inputContainer.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from '../../../redux/slices/loginslice';
+import * as loginActions from '../../../redux/slices/loginslice';
 
 function InputContainer({ type, text, val }) {
     const dispatch = useDispatch()
-    const states = useSelector(state => state.login);
+    const loginstates = useSelector(state => state.login);
     return (
         <div className='container'>
             <label>{text}</label>
             <input
                 type={type}
-                value={states.type}
+                value={loginstates[val]}
                 onChange={(e) => {
-                    dispatch(Actions[`set${val}`](e.target.value))
-                }} />
+                    dispatch(loginActions[`set${val}`](e.target.value))
+                }}
+            />
         </div>
     )
 }

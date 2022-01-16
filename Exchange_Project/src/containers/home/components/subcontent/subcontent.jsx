@@ -5,7 +5,7 @@ import useWebSocket from 'react-use-websocket';
 import './subcontent.scss'
 import { Link } from 'react-router-dom'
 
-function Subcontent({t}) {
+function Subcontent({ t }) {
     const dispatch = useDispatch()
     const states = useSelector(state => state.home);
     const loginStates = useSelector(state => state.login);
@@ -20,7 +20,6 @@ function Subcontent({t}) {
         })
     }, [])
     useEffect(() => {
-        console.log(readyState)
         if (lastJsonMessage) {
             let socketdata = lastJsonMessage.data
             dispatch(Actions.setSocketData(socketdata))

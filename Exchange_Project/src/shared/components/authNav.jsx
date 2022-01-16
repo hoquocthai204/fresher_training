@@ -19,8 +19,8 @@ function AuthNav({ t }) {
 
     return (
         <div className='rightSide'>
-            <button className='walletTab'>Wallet <i class="fas fa-caret-down"></i></button>
-            <button className='orderTab'>Orders <i class="fas fa-caret-down"></i></button>
+            <button className='walletTab'>{t('wallet')} <i class="fas fa-caret-down"></i></button>
+            <button className='orderTab'>{t('order')} <i class="fas fa-caret-down"></i></button>
 
             <div className="user_container">
                 <button className='userTab' onClick={() => dispatch(authActions.setShowUserInfo())}><i class="far fa-user-circle"></i></button>
