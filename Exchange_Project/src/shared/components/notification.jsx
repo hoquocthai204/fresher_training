@@ -10,56 +10,22 @@ function Notification() {
 
     useEffect(() => {
         if (authStates.showNotificationBox) {
-            fetch('http://localhost:8080/api/public/notifications/count-unread', {
-                method: 'get',
-                headers: new Headers({
-                    'Authorization': 'Bearer ' + (`${loginStates.auth.token}`),
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }),
-            })
-                .then(res => res.json())
-                .then(json => {
-                    dispatch(authActions.setUnreadNotification(json))
-                })
-                .catch(error => console.log(error))
-
-            fetch('http://localhost:8080/api/public/notifications', {
-                method: 'get',
-                headers: new Headers({
-                    'Authorization': 'Bearer ' + (`${loginStates.auth.token}`),
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }),
-            })
-                .then(res => res.json())
-                .then(json => {
-                    dispatch(authActions.setListNotification(json))
-                })
-                .catch(error => console.log(error))
+            dispatch(authActions.getUnreadNotApi(loginStates.auth.token))
+            dispatch(authActions.getNotificationListApi(loginStates.auth.token))
         }
     }, [authStates.showNotificationBox])
 
     const handleReadAll = () => {
-        fetch('http://localhost:8080/api/public/notifications/read-all', {
-            method: 'put',
-            headers: new Headers({
-                'Authorization': 'Bearer ' + (`${loginStates.auth.token}`),
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }),
-        })
+        dispatch(authActions.putReadAllNotApi(loginStates.auth.token))
     }
 
     const handleview = (id) => {
-        fetch(`http://localhost:8080/api/public/notifications/read/${id}`, {
-            method: 'put',
-            headers: new Headers({
-                'Authorization': 'Bearer ' + (`${loginStates.auth.token}`),
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }),
-        })
+        let token = loginStates.auth.token
+        dispatch(authActions.putReadAnyNotApi({ token, id }))
     }
     return (
         <div className="notification_container">
-            <button className='notTab' onClick={() => dispatch(authActions.setShowNotificationBox(!authStates.showNotificationBox))}><i class="far fa-bell"></i></button>
+            <button className='notTab' onClick={() => dispatch(authActions.setShowNotificationBox(!authStates.showNotificationBox))}><i className="far fa-bell"></i></button>
 
             {authStates.showNotificationBox &&
                 (<div className="not_Box">
@@ -69,7 +35,7 @@ function Notification() {
                             pending notifications
                         </p>
                         <button className='clear_not' onClick={handleReadAll}>Clear All</button>
-                        <button className='view_not'>View All <i class="fas fa-chevron-right"></i></button>
+                        <button className='view_not'>View All <i className="fas fa-chevron-right"></i></button>
                     </div>
 
                     <div className="not_List">

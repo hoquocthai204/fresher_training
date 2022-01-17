@@ -13,6 +13,7 @@ function InputContainer({ type, text, val }) {
                 value={loginstates[val]}
                 onChange={(e) => {
                     dispatch(loginActions[`set${val}`](e.target.value))
+                    localStorage.setItem(`${val}`, `${e.target.value}`)
                 }}
             />
         </div>

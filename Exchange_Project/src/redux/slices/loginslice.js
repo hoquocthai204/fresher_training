@@ -1,4 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import loginApi from '../../apis/loginApi'
+
+const loginAsyncApi = createAsyncThunk('login/submit', async (data, thunkAPI) => {
+    const json = await loginApi.submit(data)
+    return json
+})
 
 const loginSlice = createSlice({
     name: 'login',
@@ -9,47 +15,34 @@ const loginSlice = createSlice({
         auth: {
             token: ''
         },
-        post: []
+        showAlert: false
     },
     reducers: {
+        setShowAlert(state, action) {
+            state.showAlert = action.payload
+        },
         setInLoginorRegis(state, action) {
-            let newstate = {
-                ...state,
-                inLoginorRegis: action.payload
-            }
-            return newstate
+            state.inLoginorRegis = action.payload
         },
         setemail(state, action) {
-            let newstate = {
-                ...state,
-                email: action.payload
-            }
-            return newstate
+            state.email = action.payload
         },
         setpassword(state, action) {
-            let newstate = {
-                ...state,
-                password: action.payload
-            }
-            return newstate
-        },
-        setIsLogin(state, action) {
-            let newstate = {
-                ...state,
-                isLogin: action.payload
-            }
-            return newstate
+            state.password = action.payload
         },
         setAuth(state, action) {
-            let newstate = {
-                ...state,
-                auth: action.payload
-            }
-            return newstate
+            state.auth = action.payload
+        }
+    },
+    extraReducers: {
+        [loginAsyncApi.fulfilled]: (state, action) => {
+            state.auth = action.payload
+            state.inLoginorRegis = false
         }
     }
 })
 
 const { actions, reducer } = loginSlice;
-export const { setemail, setpassword, setAuth, setInLoginorRegis } = actions
+export const { setemail, setpassword, setAuth, setInLoginorRegis, setShowAlert } = actions
 export default reducer;
+export { loginAsyncApi }

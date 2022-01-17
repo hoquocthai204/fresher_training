@@ -12,10 +12,10 @@ function AuthNav({ t }) {
 
     return (
         <div className='rightSide'>
-            <button className='walletTab'>{t('wallet')} <i class="fas fa-caret-down"></i></button>
-            <button className='orderTab'>{t('order')} <i class="fas fa-caret-down"></i></button>
+            <button className='walletTab'>{t('wallet')} <i className="fas fa-caret-down"></i></button>
+            <button className='orderTab'>{t('order')} <i className="fas fa-caret-down"></i></button>
 
-            <UserInfo />
+            <UserInfo t={t} />
 
             <Notification />
 

@@ -1,9 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from '../../../../redux/slices/homeslice';
+import { useSelector } from 'react-redux';
 import './maincontent.scss'
 
 function MainContent(props) {
-    const dispatch = useDispatch()
     const states = useSelector(state => state.home);
     return (
         <div className='mainContent'>
@@ -37,7 +35,7 @@ function MainContent(props) {
                     })
                 }
 
-                <div className='view'>{props.t('view more')} <i class="fas fa-chevron-right"></i></div>
+                <div className='view'>{props.t('view more')} <i className="fas fa-chevron-right"></i></div>
             </div>
         </div>
     )

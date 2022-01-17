@@ -9,11 +9,7 @@ const Language = (props) => {
     const states = useSelector(state => state.home);
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/common/languages')
-            .then(res => res.json())
-            .then(json => {
-                dispatch(Actions.setLangList(json))
-            })
+        dispatch(Actions.languageListApi())
     }, [])
 
     function handleClick(element, name) {

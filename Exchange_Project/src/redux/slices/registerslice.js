@@ -1,4 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import register from '../../apis/registerApi'
+
+const regisAsyncApi = createAsyncThunk('register/submit', async (data, thunkAPI) => {
+    const regis = await register.submit(data)
+})
 
 const regisSlice = createSlice({
     name: 'register',
@@ -13,53 +18,29 @@ const regisSlice = createSlice({
     },
     reducers: {
         setCheckCondition(state, action) {
-            let newstate = {
-                ...state,
-                checkCondition: action.payload
-            }
-            return newstate
+            state.checkCondition = action.payload
         },
         setemail(state, action) {
-            let newstate = {
-                ...state,
-                email: action.payload
-            }
-            return newstate
+            state.email = action.payload
         },
         setpassword(state, action) {
-            let newstate = {
-                ...state,
-                password: action.payload
-            }
-            return newstate
+            state.password = action.payload
         },
         setfirstName(state, action) {
-            let newstate = {
-                ...state,
-                firstName: action.payload
-            }
-            return newstate
+            state.firstName = action.payload
         },
         setlastName(state, action) {
-            let newstate = {
-                ...state,
-                lastName: action.payload
-            }
-            return newstate
+            state.lastName = action.payload
         },
         setlangCode(state, action) {
-            let newstate = {
-                ...state,
-                langCode: action.payload
-            }
-            return newstate
+            state.langCode = action.payload
         },
         setRegistered(state, action) {
-            let newstate = {
-                ...state,
-                registered: action.payload
-            }
-            return newstate
+            state.registered = action.payload
+        }
+    },
+    extraReducers:{
+        [regisAsyncApi.fulfilled]:(state)=>{
         }
     }
 })
@@ -74,3 +55,4 @@ export const {
     setRegistered,
     setCheckCondition } = actions
 export default reducer;
+export {regisAsyncApi}

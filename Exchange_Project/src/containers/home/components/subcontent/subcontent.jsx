@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import * as Actions from '../../../../redux/slices/homeslice';
+import * as loginActions from '../../../../redux/slices/loginslice';
 import useWebSocket from 'react-use-websocket';
 import './subcontent.scss'
 import { Link } from 'react-router-dom'
@@ -11,7 +12,7 @@ function Subcontent({ t }) {
     const loginStates = useSelector(state => state.login);
 
     const [socketUrl, setSocketUrl] = useState('ws://localhost:8080/stream');
-    const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(socketUrl);
+    const { sendJsonMessage, lastJsonMessage } = useWebSocket(socketUrl);
     useEffect(() => {
         setSocketUrl('ws://localhost:8080/stream')
         sendJsonMessage({
@@ -28,20 +29,7 @@ function Subcontent({ t }) {
     })
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/common/coins')
-            .then(res => res.json())
-            .then(json => {
-                let arrCoin = json.map(ele => {
-                    return {
-                        id: ele.id,
-                        code: ele.code,
-                        name: ele.name,
-                        image: ele.image
-                    }
-                })
-                dispatch(Actions.setCoinList(arrCoin))
-            })
-            .catch(error => console.log(error))
+        dispatch(Actions.coinListApi())
     }, [])
 
     return (
@@ -51,7 +39,7 @@ function Subcontent({ t }) {
                 <p className='subcontent_subtitle'>{t('subheader')}</p>
                 {
                     !loginStates.auth.token ?
-                        <Link to='/register'><button className='register_btn'>{t('register_now')}</button></Link> :
+                        <Link to='/register' onClick={() => dispatch(loginActions.setInLoginorRegis(true))}><button className='register_btn'>{t('register_now')}</button></Link> :
                         <Link to='/trade'><button className='trade_btn'>{t('trade_now')}</button></Link>
                 }
 

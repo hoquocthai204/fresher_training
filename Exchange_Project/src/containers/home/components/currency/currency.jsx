@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../../../redux/slices/homeslice';
 import './currency.scss'
@@ -6,14 +6,9 @@ import './currency.scss'
 function Currency(props) {
     const dispatch = useDispatch()
     const states = useSelector(state => state.home);
-    const [currencyList, setcurrencyList] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/common/currencies')
-            .then(res => res.json())
-            .then(json => {
-                setcurrencyList(json)
-            })
+        dispatch(Actions.currencyListApi())
     }, [])
 
     function handleClick(element, symbol) {
@@ -34,7 +29,7 @@ function Currency(props) {
             <h4 className='currency_header'>{props.title}</h4>
             <div className='currency_list'>
                 {
-                    currencyList.map(element => {
+                    states.currencyList.map(element => {
                         return <a key={element.code} className={`item ${element.code}`} onClick={() => handleClick(`${element.code}`, `${element.symbol}`)}>{element.code} - {element.symbol}</a>
                     })
                 }

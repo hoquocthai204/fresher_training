@@ -1,11 +1,21 @@
-import { useSelector } from 'react-redux';
-import './submitBtn.scss'
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import * as regisActions from '../../../redux/slices/registerslice'
+import './submitBtn.scss'
 
 function SubmitBtn({ value }) {
+    const dispatch = useDispatch()
     const regisstates = useSelector(state => state.regis);
     const navigate = useNavigate()
 
+    useEffect(()=>{
+        dispatch(regisActions.setemail(''))
+        dispatch(regisActions.setpassword(''))
+        dispatch(regisActions.setfirstName(''))
+        dispatch(regisActions.setlastName(''))
+        dispatch(regisActions.setlangCode('en'))
+    },[])
     function handleSubmit(e) {
         e.preventDefault()
         let payload
@@ -28,17 +38,12 @@ function SubmitBtn({ value }) {
             },
             body: JSON.stringify(payload)
         };
-        fetch(`http://localhost:8080/api/register`, config)
-            .then(res => {
-                if (Math.trunc(res.status/100) !== 2) {
-                    throw new Error("Error from bahnql endpoint");
-                }
-                return res.text();
-            })
-            .then(json => {
-                navigate('/login')
-            })
-            .catch(error => console.log(error))
+        
+        try {
+            dispatch(regisActions.regisAsyncApi({ config, navigate }))
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (

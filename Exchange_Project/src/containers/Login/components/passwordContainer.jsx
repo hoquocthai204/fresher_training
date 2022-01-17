@@ -25,10 +25,11 @@ function PasswordContainer({ text, val }) {
                     value={loginstates[val]}
                     onChange={(e) => {
                         dispatch(loginActions[`set${val}`](e.target.value))
+                        localStorage.setItem(`${val}`, `${e.target.value}`)
                     }}
                 />
                 {
-                    !eye ? <i onClick={handleToggle} class="fas fa-eye-slash"></i> : <i onClick={handleToggle} class="fas fa-eye"></i>
+                    !eye ? <i onClick={handleToggle} className="fas fa-eye-slash"></i> : <i onClick={handleToggle} className="fas fa-eye"></i>
                 }
 
             </div>

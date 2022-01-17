@@ -12,17 +12,19 @@ function CheckboxContainer({ t }) {
         if (check1 && check2) {
             dispatch(regisActions.setCheckCondition(true))
         }
+        else
+            dispatch(regisActions.setCheckCondition(false))
     }, [check1, check2])
 
     return (
         <div className="checkbox_container">
-            <label class="container">{t('promise1')}
+            <label className="container">{t('promise1')}
                 <input type="checkbox" required checked={check1} onChange={(e) => setCheck1(!check1)} />
-                <span class="checkmark"></span>
+                <span className="checkmark"></span>
             </label>
-            <label class="container">{t('propmise2')}
+            <label className="container">{t('propmise2')}
                 <input type="checkbox" required checked={check2} onChange={(e) => setCheck2(!check2)} />
-                <span class="checkmark"></span>
+                <span className="checkmark"></span>
             </label>
         </div>
     )
