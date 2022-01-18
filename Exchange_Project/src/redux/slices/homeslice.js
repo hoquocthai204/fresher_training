@@ -1,83 +1,69 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import homeApi from "../../apis/homeApi";
+
+const currencyListApi = createAsyncThunk('home/currency', async () => {
+    const json = await homeApi.currencyList()
+    return json
+})
+
+const languageListApi = createAsyncThunk('home/language', async () => {
+    const json = await homeApi.languageList()
+    return json
+})
+
+const coinListApi = createAsyncThunk('home/coin', async () => {
+    const json = await homeApi.coinList()
+    return json
+})
 
 const homeSlice = createSlice({
     name: 'home',
     initialState: {
         coinList: [],
         otherOption: 'language',
-        post: [],
         socketdata: [],
-        language: {},
-        currency: {},
+        language: JSON.parse(localStorage.getItem('lang')) || { code: "en", name: "English" },
+        currency: JSON.parse(localStorage.getItem('curr')) || { code: "USD", symbol: "$" },
         showDownloadBox: false,
-        showOptionBox: false
+        showOptionBox: false,
+        langList: [],
+        currencyList: []
     },
     reducers: {
-        setShowDownloadBox(state) {
-            let newstate = {
-                ...state,
-                showDownloadBox: !state.showDownloadBox
-            }
-            return newstate
+        setShowDownloadBox(state, action) {
+            state.showDownloadBox = action.payload
         },
-        setShowOptionBox(state) {
-            let newstate = {
-                ...state,
-                showOptionBox: !state.showOptionBox
-            }
-            return newstate
-        },
-        setCoinList(state, action) {
-            let newstate = {
-                ...state,
-                coinList: action.payload
-            }
-            return newstate
+        setShowOptionBox(state, action) {
+            state.showOptionBox = action.payload
         },
         setOtherOption(state, action) {
-            let newstate = {
-                ...state,
-                otherOption: action.payload
-            }
-            return newstate
+            state.otherOption = action.payload
         },
         setSocketData(state, action) {
-            let newstate = {
-                ...state,
-                socketdata: action.payload
-            }
-            return newstate
+            state.socketdata = action.payload
         },
         setLanguage(state, action) {
-            let newstate = {
-                ...state,
-                language: action.payload
-            }
-            return newstate
+            state.language = action.payload
         },
         setCurrency(state, action) {
-            let newstate = {
-                ...state,
-                currency: action.payload
-            }
-            return newstate
+            state.currency = action.payload
+        }
+    },
+    extraReducers: {
+        [currencyListApi.fulfilled]: (state, action) => {
+            state.currencyList = action.payload
         },
-        addPost(state, action) {
-            let newstate = {
-                ...state,
-                post: [...state.post, action.payload]
-            }
-            return newstate
+        [languageListApi.fulfilled]: (state, action) => {
+            state.langList = action.payload
         },
-        removePost(state, action) {
-            state.splice(action.payload, 1)
+        [coinListApi.fulfilled]: (state, action) => {
+            state.coinList = action.payload
         }
     }
 });
 
 const { actions, reducer } = homeSlice;
 export const {
-    setCoinList,
     setOtherOption,
     setSocketData,
     setLanguage,
@@ -85,3 +71,4 @@ export const {
     setShowDownloadBox,
     setShowOptionBox } = actions;
 export default reducer;
+export { currencyListApi, languageListApi, coinListApi }
