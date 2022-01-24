@@ -2,17 +2,17 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tranHisApi from "../../apis/tranHisApi";
 
 const getTranHisApi = createAsyncThunk('tranHis/getTran', async (data) => {
-    const json = tranHisApi.getTranHis(data)
+    const json = await tranHisApi.getTranHis(data)
     return json.data
 })
 
 const tranHistoryslice = createSlice({
     name: 'tranHis',
     initialState: {
-        type: 'withdraw',
-        time: '1day',
-        asset: 'all',
-        status: 'all',
+        type: 'WITHDRAW',
+        time: '30days',
+        asset: 'BTC',
+        status: 'COMPLETED',
         resApi: []
     },
     reducers: {

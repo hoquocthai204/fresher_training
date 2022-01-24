@@ -3,6 +3,9 @@ import axios from 'axios'
 const notificationApi = {
     getNotList(token) {
         return axios.get('http://localhost:8080/api/public/notifications', {
+            params: {
+                size: 50
+            },
             headers: {
                 'Authorization': `Bearer ${token}`,
             }

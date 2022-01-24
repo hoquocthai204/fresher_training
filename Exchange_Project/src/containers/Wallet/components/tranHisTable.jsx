@@ -6,22 +6,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import './tranHisTable.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as tranHisActions from '../../../redux/slices/tranHistorySlice'
-
-const columns = [
-    { id: 'time', label: 'Time', minWidth: 100 },
-    { id: 'type', label: 'Type', minWidth: 100 },
-    { id: 'wallet', label: 'Withdraw wallet', minWidth: 100, },
-    { id: 'asset', label: 'Asset', minWidth: 100, },
-    { id: 'amount', label: 'Amount', minWidth: 100, },
-    { id: 'dest', label: 'destination', minWidth: 100, },
-    { id: 'src', label: 'TxID', minWidth: 100, },
-    { id: 'status', label: 'Status', minWidth: 100, },
-];
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import './tranHisTable.scss'
 
 function TranHisTable() {
+    const dispatch = useDispatch()
+    const states = useSelector(state => state.tranHis)
+    const loginStates = useSelector(state => state.login)
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [rows, setRows] = useState([])
@@ -32,10 +26,46 @@ function TranHisTable() {
         { id: 'wallet', label: 'Withdraw wallet', minWidth: 100, },
         { id: 'asset', label: 'Asset', minWidth: 100, },
         { id: 'amount', label: 'Amount', minWidth: 100, },
-        { id: 'dest', label: 'destination', minWidth: 100, },
+        { id: 'dest', label: 'Destination', minWidth: 100, },
         { id: 'src', label: 'TxID', minWidth: 100, },
         { id: 'status', label: 'Status', minWidth: 100, },
     ];
+
+    useEffect(() => {
+        let type = states.type
+        let token = loginStates.auth.token
+        let data = {
+            'type.equals': type,
+            size: 50,
+            'coinCode.equals': states.asset,
+            'status.equals': states.status
+
+        }
+
+        dispatch(tranHisActions.getTranHisApi({ data, token }))
+    }, [states.type, states.asset, states.status, states.time])
+
+    useEffect(() => {
+        if (states.resApi.length > 0) {
+            let rowstemp = states.resApi.slice(0).reverse().map(e => {
+                let time = e.completedDate
+                let type = e.type
+                let wallet = 'Spot wallet'
+                let asset = e.coinCode
+                let amount = e.amount
+                let dest = e.toAddr
+                let src = e.fromAddr
+                let status = e.status
+                return { time, type, wallet, asset, amount, dest, src, status }
+            })
+            setRows(rowstemp)
+        }
+        else {
+            setRows([])
+        }
+    }, [states.resApi])
+
+
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);

@@ -1,11 +1,11 @@
 import axios from "axios"
 
 const tranHisApi = {
-    getTranHis({ data, token }) {
-        return axios.get('http://localhost:8080/api/public/transactions', data, {
+    getTranHis(data) {
+        return axios.get('http://localhost:8080/api/public/transactions', {
+            params: data.data,
             headers: {
-                'Authorization': 'Bearer ' + (`${token}`),
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Authorization': 'Bearer ' + (`${data.token}`),
             },
         })
     }

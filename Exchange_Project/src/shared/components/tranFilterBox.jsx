@@ -24,8 +24,8 @@ function TranFilterBox() {
                             value={states.type}
                             onChange={(e) => dispatch(tranHisActions.setType(e.target.value))}
                         >
-                            <MenuItem value={'withdraw'}>Withdraw</MenuItem>
-                            <MenuItem value={'deposit'}>Deposit</MenuItem>
+                            <MenuItem value={'WITHDRAW'}>Withdraw</MenuItem>
+                            <MenuItem value={'DEPOSIT'}>Deposit</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
@@ -59,10 +59,10 @@ function TranFilterBox() {
                             value={states.asset}
                             onChange={(e) => dispatch(tranHisActions.setAsset(e.target.value))}
                         >
-                            <MenuItem value={'all'}>All</MenuItem>
+                            {/* <MenuItem value={'all'}>All</MenuItem> */}
                             {
                                 homeStates.coinList.map(e => {
-                                    return <MenuItem value={e.code}> <CoinDetailRow image={e.image} code={e.code} name={e.name} /> </MenuItem>
+                                    return <MenuItem key={e.id} value={e.code}> <CoinDetailRow image={e.image} code={e.code} name={e.name} /> </MenuItem>
                                 })
                             }
                         </Select>
@@ -80,10 +80,10 @@ function TranFilterBox() {
                             value={states.status}
                             onChange={(e) => dispatch(tranHisActions.setStatus(e.target.value))}
                         >
-                            <MenuItem value={'all'}>All</MenuItem>
-                            <MenuItem value={'queued'}>QUEUED</MenuItem>
-                            <MenuItem value={'pending'}>PENDING</MenuItem>
-                            <MenuItem value={'confirmed'}>CONFIRMED</MenuItem>
+                            {/* <MenuItem value={'all'}>All</MenuItem> */}
+                            <MenuItem value={'COMPLETED'}>COMPLETED</MenuItem>
+                            <MenuItem value={'PROCESSING'}>PROCESSING</MenuItem>
+                            <MenuItem value={'SUBMITTED'}>SUBMITTED</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>

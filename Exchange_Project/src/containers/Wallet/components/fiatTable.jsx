@@ -129,6 +129,7 @@ function FiatTable(props) {
     }, [props.searchValue])
 
     const handleChangePage = (event, newPage) => {
+        console.log(newPage)
         setPage(newPage);
     };
 
