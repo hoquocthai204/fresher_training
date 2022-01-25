@@ -41,9 +41,9 @@ function TranFilterBox() {
                             value={states.time}
                             onChange={(e) => dispatch(tranHisActions.setTime(e.target.value))}
                         >
-                            <MenuItem value={'1day'}>Past 1 day</MenuItem>
-                            <MenuItem value={'7days'}>Past 7 days</MenuItem>
-                            <MenuItem value={'30days'}>Past 30 days</MenuItem>
+                            <MenuItem value={1}>Past 1 day</MenuItem>
+                            <MenuItem value={7}>Past 7 days</MenuItem>
+                            <MenuItem value={30}>Past 30 days</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
@@ -59,7 +59,6 @@ function TranFilterBox() {
                             value={states.asset}
                             onChange={(e) => dispatch(tranHisActions.setAsset(e.target.value))}
                         >
-                            {/* <MenuItem value={'all'}>All</MenuItem> */}
                             {
                                 homeStates.coinList.map(e => {
                                     return <MenuItem key={e.id} value={e.code}> <CoinDetailRow image={e.image} code={e.code} name={e.name} /> </MenuItem>
@@ -80,7 +79,6 @@ function TranFilterBox() {
                             value={states.status}
                             onChange={(e) => dispatch(tranHisActions.setStatus(e.target.value))}
                         >
-                            {/* <MenuItem value={'all'}>All</MenuItem> */}
                             <MenuItem value={'COMPLETED'}>COMPLETED</MenuItem>
                             <MenuItem value={'PROCESSING'}>PROCESSING</MenuItem>
                             <MenuItem value={'SUBMITTED'}>SUBMITTED</MenuItem>

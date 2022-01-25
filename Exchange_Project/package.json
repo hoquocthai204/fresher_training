@@ -29,7 +29,8 @@
     "sass": "^1.45.2",
     "socket.io": "^4.4.1",
     "socket.io-client": "^4.4.1",
-    "web-vitals": "^2.1.2"
+    "web-vitals": "^2.1.2",
+    "xlsx": "^0.17.5"
   },
   "scripts": {
     "start": "set PORT=8100 && react-scripts start",

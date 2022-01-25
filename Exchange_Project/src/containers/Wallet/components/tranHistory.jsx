@@ -1,5 +1,6 @@
 import TranFilterBox from '../../../shared/components/tranFilterBox';
 import TranHisTable from './tranHisTable'
+import TranHisExport from './tranHisExport';
 import './tranHistory.scss'
 
 function TranHistory() {
@@ -13,10 +14,7 @@ function TranHistory() {
 
             <TranFilterBox />
 
-            <div className="export_link">
-                <i class="fas fa-external-link-alt"></i>
-                <span>Export Withdraw History</span>
-            </div>
+            <TranHisExport />
 
             <TranHisTable />
         </div>

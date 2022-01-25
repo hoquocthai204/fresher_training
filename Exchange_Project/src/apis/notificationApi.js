@@ -20,12 +20,6 @@ const notificationApi = {
         })
     },
     putReadAllNot(token) {
-        // return axios.put('http://localhost:8080/api/public/notifications/read-all', {
-        //     headers: {
-        //         'Authorization': 'Bearer ' + `${token}`,
-        //     }
-        // })
-
         return (
             fetch('http://localhost:8080/api/public/notifications/read-all', {
                 method: 'put',
@@ -46,12 +40,6 @@ const notificationApi = {
                 }),
             })
         )
-
-        // return axios.put(`http://localhost:8080/api/public/notifications/read/${id}`, {
-        //     headers: {
-        //         'Authorization': 'Bearer ' + `${token}`,
-        //     }
-        // })
     }
 }
 

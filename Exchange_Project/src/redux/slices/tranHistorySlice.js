@@ -10,12 +10,16 @@ const tranHistoryslice = createSlice({
     name: 'tranHis',
     initialState: {
         type: 'WITHDRAW',
-        time: '30days',
+        time: 30,
         asset: 'BTC',
         status: 'COMPLETED',
-        resApi: []
+        resApi: [],
+        exportData: []
     },
     reducers: {
+        setExportData(state, action) {
+            state.exportData = action.payload
+        },
         setType(state, action) {
             state.type = action.payload
         },
@@ -37,6 +41,6 @@ const tranHistoryslice = createSlice({
 })
 
 const { actions, reducer } = tranHistoryslice;
-export const { setType, setTime, setAsset, setStatus } = actions;
+export const { setType, setTime, setAsset, setStatus, setExportData } = actions;
 export default reducer;
 export { getTranHisApi }

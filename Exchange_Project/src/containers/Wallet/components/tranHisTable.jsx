@@ -11,6 +11,7 @@ import * as tranHisActions from '../../../redux/slices/tranHistorySlice'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import './tranHisTable.scss'
+import copyicon from '../../../imgs/copy.png'
 
 function TranHisTable() {
     const dispatch = useDispatch()
@@ -39,7 +40,12 @@ function TranHisTable() {
             size: 50,
             'coinCode.equals': states.asset,
             'status.equals': states.status
-
+        }
+        const timeStamp = new Date().getTime();
+        const datepast = timeStamp - 24 * 60 * 60 * 1000 * states.time;
+        data = {
+            ...data,
+            'fromDate.greaterThanOrEqual': new Date(datepast)
         }
 
         dispatch(tranHisActions.getTranHisApi({ data, token }))
@@ -56,16 +62,23 @@ function TranHisTable() {
                 let dest = e.toAddr
                 let src = e.fromAddr
                 let status = e.status
+                if (src === 'Unknown') {
+                    src = ''
+                }
                 return { time, type, wallet, asset, amount, dest, src, status }
             })
             setRows(rowstemp)
+            dispatch(tranHisActions.setExportData(rowstemp))
         }
         else {
             setRows([])
         }
     }, [states.resApi])
 
-
+    function handleCopy(e, id) {
+        navigator.clipboard.writeText(document.querySelector(`.span-${id}`).innerText)
+        e.target.title = 'copied'
+    }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -77,7 +90,7 @@ function TranHisTable() {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <Paper className='tranHisTable' sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -103,9 +116,9 @@ function TranHisTable() {
                                             const value = row[column.id];
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
-                                                    {column.format && typeof value === 'number'
-                                                        ? column.format(value)
-                                                        : value}
+                                                    {
+                                                        column.id === 'dest' || (column.id === 'src' && value) ? <div><span className={`span-${column.id}`}>{value}</span> <img onClick={(e) => handleCopy(e, column.id)} src={copyicon} alt="" /></div> : value
+                                                    }
                                                 </TableCell>
                                             );
                                         })}
